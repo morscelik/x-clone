@@ -32,7 +32,13 @@ app.use((err, req, res, next) => {
 const startServer = async ()=> {
     try {
         await connectDB();
-        app.listen(ENV.PORT, () => console.log(`Server running on http://localhost:${ENV.PORT}`));
+       
+        // listen for local production
+        if(ENV.NODE_ENV === 'production') {
+            app.listen(ENV.PORT, () => {
+                console.log(`Server running in production mode on port ${ENV.PORT}`);
+            });
+        }
     } catch (error) {
         console.error("Failed to start server:", error);
         process.exit(1);
@@ -40,3 +46,6 @@ const startServer = async ()=> {
 }
 
 startServer();
+
+// export for vercel
+export default app;
