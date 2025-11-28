@@ -3,8 +3,20 @@ import { ENV } from './config/env.js';
 import { connectDB } from './config/db.js';
 
 const app = express();
-connectDB()
+
+
 
 app.get('/', (req, res) => res.send("Hello Server"))
 
-app.listen(ENV.PORT, () => console.log('Server running on http://localhost:5001'));
+
+const startServer = async ()=> {
+    try {
+        await connectDB();
+        app.listen(ENV.PORT, () => console.log(`Server running on http://localhost:${ENV.PORT}`));
+    } catch (error) {
+        console.error("Failed to start server:", error);
+        process.exit(1);
+    }
+}
+
+startServer();
