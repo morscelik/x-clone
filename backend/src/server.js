@@ -1,5 +1,10 @@
 import express from 'express';
+import { ENV } from './config/env.js';
+import { connectDB } from './config/db.js';
 
 const app = express();
+connectDB()
 
-app.listen(5001, () => console.log('Server running on http://localhost:5001'));
+app.get('/', (req, res) => res.send("Hello Server"))
+
+app.listen(ENV.PORT, () => console.log('Server running on http://localhost:5001'));
